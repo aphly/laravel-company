@@ -22,17 +22,19 @@ Route::middleware(['web'])->group(function () {
         Route::middleware(['rbac'])->group(function () {
 
             $route_arr = [
-                ['method','\MethodController'],['payment','\PaymentController'],['params','\ParamsController']
+                ['mail','\MailController'],['mail_template','\MailTemplateController'],['order','\OrderController'],
+                ['order_mail','\OrderMailController']
             ];
             foreach ($route_arr as $val){
-                Route::get('/'.$val[0].'/index', 'Aphly\LaravelCompany\Controllers\Admin'.$val[1].'@index');
-                Route::get('/'.$val[0].'/form', 'Aphly\LaravelCompany\Controllers\Admin'.$val[1].'@form');
-                Route::post('/'.$val[0].'/save', 'Aphly\LaravelCompany\Controllers\Admin'.$val[1].'@save');
-                Route::post('/'.$val[0].'/del', 'Aphly\LaravelCompany\Controllers\Admin'.$val[1].'@del');
+                Route::get($val[0].'/index', 'Aphly\LaravelCompany\Controllers\Admin'.$val[1].'@index');
+                Route::get($val[0].'/form', 'Aphly\LaravelCompany\Controllers\Admin'.$val[1].'@form');
+                Route::post($val[0].'/save', 'Aphly\LaravelCompany\Controllers\Admin'.$val[1].'@save');
+                Route::post($val[0].'/del', 'Aphly\LaravelCompany\Controllers\Admin'.$val[1].'@del');
             }
 
-            Route::match(['get', 'post'],'/payment/refund', 'Aphly\LaravelCompany\Controllers\Admin\PaymentController@refund');
-            Route::match(['get', 'post'],'/payment/show', 'Aphly\LaravelCompany\Controllers\Admin\PaymentController@show');
+            Route::match(['post'],'/order_mail/upload', 'Aphly\LaravelCompany\Controllers\Admin\OrderMailController@upload');
+            Route::match(['post'],'/order_mail/send', 'Aphly\LaravelCompany\Controllers\Admin\OrderMailController@send');
+
         });
     });
 

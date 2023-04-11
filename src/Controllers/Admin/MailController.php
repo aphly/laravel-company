@@ -3,38 +3,38 @@
 namespace Aphly\LaravelCompany\Controllers\Admin;
 
 use Aphly\Laravel\Exceptions\ApiException;
-use Aphly\LaravelCompany\Models\PaymentMethod;
+use Aphly\LaravelCompany\Models\Mail;
 use Illuminate\Http\Request;
 
-class MethodController extends Controller
+class MailController extends Controller
 {
-    public $index_url='/payment_admin/method/index';
+    public $index_url='/company_admin/mail/index';
 
     public function index(Request $request)
     {
         $res['search']['name'] = $name = $request->query('name',false);
         $res['search']['string'] = http_build_query($request->query());
-        $res['list'] = PaymentMethod::when($name,
+        $res['list'] = Mail::when($name,
                 function($query,$name) {
                     return $query->where('name', 'like', '%'.$name.'%');
                 })
             ->orderBy('id','desc')
             ->Paginate(config('admin.perPage'))->withQueryString();
-        return $this->makeView('laravel-payment::admin.method.index',['res'=>$res]);
+        return $this->makeView('laravel-company::admin.mail.index',['res'=>$res]);
     }
 
     public function form(Request $request)
     {
-        $res['info'] = PaymentMethod::where('id',$request->query('id',0))->firstOrNew();
-        return $this->makeView('laravel-payment::admin.method.form',['res'=>$res]);
+        $res['info'] = Mail::where('id',$request->query('id',0))->firstOrNew();
+        return $this->makeView('laravel-company::admin.mail.form',['res'=>$res]);
     }
 
     public function save(Request $request){
         $input = $request->all();
         if($input['default']==1){
-            PaymentMethod::whereRaw('1')->update(['default'=>2]);
+            Mail::whereRaw('1')->update(['default'=>2]);
         }
-        PaymentMethod::updateOrCreate(['id'=>$request->query('id',0)],$input);
+        Mail::updateOrCreate(['id'=>$request->query('id',0)],$input);
         throw new ApiException(['code'=>0,'msg'=>'success','data'=>['redirect'=>$this->index_url]]);
     }
 
@@ -44,7 +44,7 @@ class MethodController extends Controller
         $redirect = $query?$this->index_url.'?'.http_build_query($query):$this->index_url;
         $post = $request->input('delete');
         if(!empty($post)){
-            PaymentMethod::whereIn('id',$post)->delete();
+            Mail::whereIn('id',$post)->delete();
             throw new ApiException(['code'=>0,'msg'=>'操作成功','data'=>['redirect'=>$redirect]]);
         }
     }
