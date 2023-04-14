@@ -15,10 +15,15 @@ class Module extends Module_base
         parent::install($module_id);
         $menu = Menu::create(['name' => '公司','route' =>'','pid'=>0,'type'=>1,'module_id'=>$module_id,'sort'=>10]);
         if($menu->id){
-            $data=[];
-            $data[] =['name' => '支付方式','route' =>'payment_admin/method/index','pid'=>$menu->id,'type'=>2,'module_id'=>$module_id,'sort'=>0];
-            $data[] =['name' => '流水号','route' =>'payment_admin/payment/index','pid'=>$menu->id,'type'=>2,'module_id'=>$module_id,'sort'=>0];
-            DB::table('admin_menu')->insert($data);
+            $menu2 = Menu::create(['name' => '客服部门','route' =>'','pid'=>$menu->id,'type'=>1,'module_id'=>$module_id,'sort'=>20]);
+            if($menu2){
+                $data=[];
+                $data[] =['name' => '邮件设置','route' =>'company_admin/mail/index','pid'=>$menu2->id,'type'=>2,'module_id'=>$module_id,'sort'=>0];
+                $data[] =['name' => '邮件模板','route' =>'company_admin/mail_template/index','pid'=>$menu2->id,'type'=>2,'module_id'=>$module_id,'sort'=>0];
+                $data[] =['name' => '订单管理','route' =>'company_admin/order/index','pid'=>$menu2->id,'type'=>2,'module_id'=>$module_id,'sort'=>0];
+                $data[] =['name' => '订单邮件','route' =>'company_admin/order_mail/index','pid'=>$menu2->id,'type'=>2,'module_id'=>$module_id,'sort'=>0];
+                DB::table('admin_menu')->insert($data);
+            }
         }
         $menuData = Menu::where(['module_id'=>$module_id])->get();
         $data=[];
@@ -27,21 +32,6 @@ class Module extends Module_base
         }
         DB::table('admin_role_menu')->insert($data);
 
-        $dict = Dict::create(['name' => '支付状态','key'=>'payment_status','module_id'=>$module_id]);
-        if($dict->id){
-            $data=[];
-            $data[] =['dict_id' => $dict->id,'name'=>'未支付','value'=>'1'];
-            $data[] =['dict_id' => $dict->id,'name'=>'已支付','value'=>'2'];
-            DB::table('admin_dict_value')->insert($data);
-        }
-
-        $dict = Dict::create(['name' => '支付退款状态','key'=>'payment_refund_status','module_id'=>$module_id]);
-        if($dict->id){
-            $data=[];
-            $data[] =['dict_id' => $dict->id,'name'=>'等待退款','value'=>'1'];
-            $data[] =['dict_id' => $dict->id,'name'=>'退款成功','value'=>'2'];
-            DB::table('admin_dict_value')->insert($data);
-        }
         return 'install_ok';
     }
 

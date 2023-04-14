@@ -27,10 +27,11 @@ Route::middleware(['web'])->group(function () {
             ];
             foreach ($route_arr as $val){
                 Route::get($val[0].'/index', 'Aphly\LaravelCompany\Controllers\Admin'.$val[1].'@index');
-                Route::get($val[0].'/form', 'Aphly\LaravelCompany\Controllers\Admin'.$val[1].'@form');
-                Route::post($val[0].'/save', 'Aphly\LaravelCompany\Controllers\Admin'.$val[1].'@save');
+                Route::match(['get','post'],$val[0].'/add', 'Aphly\LaravelCompany\Controllers\Admin'.$val[1].'@add');
+                Route::match(['get','post'],$val[0].'/edit', 'Aphly\LaravelCompany\Controllers\Admin'.$val[1].'@edit');
                 Route::post($val[0].'/del', 'Aphly\LaravelCompany\Controllers\Admin'.$val[1].'@del');
             }
+            Route::match(['get'],'/order/info', 'Aphly\LaravelCompany\Controllers\Admin\OrderController@info');
 
             Route::match(['post'],'/order_mail/upload', 'Aphly\LaravelCompany\Controllers\Admin\OrderMailController@upload');
             Route::match(['post'],'/order_mail/send', 'Aphly\LaravelCompany\Controllers\Admin\OrderMailController@send');

@@ -3,28 +3,17 @@
     <h5 class="nav-title">info</h5>
 </div>
 <div class="imain">
-    <form method="post" @if($res['info']->id) action="/payment_admin/method/save?id={{$res['info']->id}}" @else action="/payment_admin/method/save" @endif class="save_form">
+    <form method="post" @if($res['info']->id) action="/company_admin/mail_template/edit?id={{$res['info']->id}}" @else action="/company_admin/mail_template/add" @endif class="save_form">
         @csrf
         <div class="">
             <div class="form-info">
-                <label for="">名称</label>
+                <label for="">name</label>
                 <input type="text" name="name" class="form-control " value="{{$res['info']->name}}">
                 <div class="invalid-feedback"></div>
             </div>
             <div class="form-info">
-                <label for="">排序</label>
-                <input type="number" name="sort" class="form-control " value="{{$res['info']->sort??0}}">
-                <div class="invalid-feedback"></div>
-            </div>
-            <div class="form-group">
-                <label for="">默认</label>
-                <select name="default" class="form-control">
-                    @if(isset($dict['yes_no']))
-                        @foreach($dict['yes_no'] as $key=>$val)
-                            <option value="{{$key}}" @if($res['info']->default==$key) selected @endif>{{$val}}</option>
-                        @endforeach
-                    @endif
-                </select>
+                <label for="">template</label>
+                <textarea type="text" name="template" class="form-control ">{{$res['info']->template}}</textarea>
                 <div class="invalid-feedback"></div>
             </div>
             <div class="form-group">

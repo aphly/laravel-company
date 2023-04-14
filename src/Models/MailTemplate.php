@@ -13,7 +13,7 @@ class MailTemplate extends Model
     //public $timestamps = false;
 
     protected $fillable = [
-        'name','sort','status','default'
+        'name','level_id','status','uuid','template','status'
     ];
 
 

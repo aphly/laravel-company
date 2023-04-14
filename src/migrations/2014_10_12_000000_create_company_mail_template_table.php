@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('uuid')->index();
             $table->unsignedBigInteger('level_id')->default(0)->index();
+            $table->string('name',64)->nullable();
             $table->text('template')->nullable();
             $table->tinyInteger('status')->nullable()->default(1);
             $table->unsignedBigInteger('created_at');

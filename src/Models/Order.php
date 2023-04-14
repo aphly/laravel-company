@@ -9,11 +9,14 @@ class Order extends Model
 {
     use HasFactory;
     protected $table = 'company_order';
-    protected $primaryKey = 'id';
+    protected $primaryKey = 'order_id';
+    protected $keyType = 'string';
+    public $incrementing = false;
     //public $timestamps = false;
 
     protected $fillable = [
-        'name','sort','status','default'
+        'order_id','email','firstname','lastname','country','city','address','postcode',
+        'telephone','price','currency','add_time'
     ];
 
 

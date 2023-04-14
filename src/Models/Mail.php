@@ -13,7 +13,7 @@ class Mail extends Model
     //public $timestamps = false;
 
     protected $fillable = [
-        'name','sort','status','default'
+        'uuid','level_id','host','port','encryption','username','password','from_address','from_name','status'
     ];
 
 
