@@ -12,11 +12,11 @@ class Order extends Model
     protected $primaryKey = 'order_id';
     protected $keyType = 'string';
     public $incrementing = false;
-    //public $timestamps = false;
+    public $timestamps = false;
 
     protected $fillable = [
         'order_id','email','firstname','lastname','country','city','address','postcode',
-        'telephone','price','currency','add_time'
+        'telephone','price','currency','add_time','zone'
     ];
 
 

@@ -6,37 +6,37 @@
     <form method="post" @if($res['info']->id) action="/company_admin/mail/edit?id={{$res['info']->id}}" @else action="/company_admin/mail/add" @endif class="save_form">
         @csrf
         <div class="">
-            <div class="form-info">
+            <div class="form-group">
                 <label for="">host</label>
                 <input type="text" name="host" class="form-control " value="{{$res['info']->host}}">
                 <div class="invalid-feedback"></div>
             </div>
-            <div class="form-info">
+            <div class="form-group">
                 <label for="">port</label>
                 <input type="text" name="port" class="form-control " value="{{$res['info']->port}}">
                 <div class="invalid-feedback"></div>
             </div>
-            <div class="form-info">
+            <div class="form-group">
                 <label for="">encryption</label>
                 <input type="text" name="encryption" class="form-control " value="{{$res['info']->encryption}}">
                 <div class="invalid-feedback"></div>
             </div>
-            <div class="form-info">
+            <div class="form-group">
                 <label for="">username</label>
                 <input type="text" name="username" class="form-control " value="{{$res['info']->username}}">
                 <div class="invalid-feedback"></div>
             </div>
-            <div class="form-info">
+            <div class="form-group">
                 <label for="">password</label>
                 <input type="text" name="password" class="form-control " value="{{$res['info']->password}}">
                 <div class="invalid-feedback"></div>
             </div>
-            <div class="form-info">
+            <div class="form-group">
                 <label for="">from_address</label>
                 <input type="text" name="from_address" class="form-control " value="{{$res['info']->from_address}}">
                 <div class="invalid-feedback"></div>
             </div>
-            <div class="form-info">
+            <div class="form-group">
                 <label for="">from_name</label>
                 <input type="text" name="from_name" class="form-control " value="{{$res['info']->from_name}}">
                 <div class="invalid-feedback"></div>

@@ -36,7 +36,7 @@ class MailTemplateController extends Controller
             MailTemplate::create($input);
             throw new ApiException(['code'=>0,'msg'=>'success','data'=>['redirect'=>$this->index_url]]);
         }else{
-            $res['info'] = MailTemplate::where('id',$request->query('id',0))->dataPerm(Manager::_uuid())->firstOrNew();
+            $res['info'] = MailTemplate::where('id',$request->query('id',0))->firstOrNew();
             return $this->makeView('laravel-company::admin.mail_template.form',['res'=>$res]);
         }
     }

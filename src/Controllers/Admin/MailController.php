@@ -36,7 +36,7 @@ class MailController extends Controller
             Mail::create($input);
             throw new ApiException(['code'=>0,'msg'=>'success','data'=>['redirect'=>$this->index_url]]);
         }else{
-            $res['info'] = Mail::where('id',$request->query('id',0))->dataPerm(Manager::_uuid())->firstOrNew();
+            $res['info'] = Mail::where('id',$request->query('id',0))->firstOrNew();
             return $this->makeView('laravel-company::admin.mail.form',['res'=>$res]);
         }
     }

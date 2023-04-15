@@ -6,12 +6,12 @@
     <form method="post" @if($res['info']->id) action="/company_admin/mail_template/edit?id={{$res['info']->id}}" @else action="/company_admin/mail_template/add" @endif class="save_form">
         @csrf
         <div class="">
-            <div class="form-info">
+            <div class="form-group">
                 <label for="">name</label>
                 <input type="text" name="name" class="form-control " value="{{$res['info']->name}}">
                 <div class="invalid-feedback"></div>
             </div>
-            <div class="form-info">
+            <div class="form-group">
                 <label for="">template</label>
                 <textarea type="text" name="template" class="form-control ">{{$res['info']->template}}</textarea>
                 <div class="invalid-feedback"></div>

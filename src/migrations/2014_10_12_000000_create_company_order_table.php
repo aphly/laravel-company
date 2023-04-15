@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('firstname',64);
             $table->string('lastname',64);
             $table->string('country',64);
+            $table->string('zone',64);
             $table->string('city',64);
             $table->string('address',128);
             $table->string('postcode',16);

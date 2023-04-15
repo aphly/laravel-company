@@ -10,10 +10,10 @@ class OrderMail extends Model
     use HasFactory;
     protected $table = 'company_order_mail';
     protected $primaryKey = 'id';
-    //public $timestamps = false;
+    public $timestamps = false;
 
     protected $fillable = [
-        'name','sort','status','default'
+        'order_id','mail_template_id','mail_id','level_id','status','uuid'
     ];
 
 

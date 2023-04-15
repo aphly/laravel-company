@@ -47,7 +47,6 @@ class OrderController extends Controller
     public function info(Request $request)
     {
         $res['info'] = Order::where('order_id',$request->query('order_id',0))->firstOrError();
-        $res['show'] = 1;
         return $this->makeView('laravel-company::admin.order.form',['res'=>$res]);
     }
 

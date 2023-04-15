@@ -15,6 +15,8 @@ return new class extends Migration
     {
         Schema::create('company_order_mail', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('uuid')->index();
+            $table->unsignedBigInteger('level_id')->default(0)->index();
             $table->string('order_id',64)->index();
             $table->unsignedBigInteger('mail_template_id')->index();
             $table->unsignedBigInteger('mail_id')->index();
