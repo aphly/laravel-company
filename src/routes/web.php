@@ -23,7 +23,7 @@ Route::middleware(['web'])->group(function () {
 
             $route_arr = [
                 ['mail','\MailController'],['mail_template','\MailTemplateController'],['order','\OrderController'],
-                ['order_mail','\OrderMailController']
+                ['mail_task','\MailTaskController']
             ];
             foreach ($route_arr as $val){
                 Route::get($val[0].'/index', 'Aphly\LaravelCompany\Controllers\Admin'.$val[1].'@index');
@@ -36,6 +36,9 @@ Route::middleware(['web'])->group(function () {
             Route::match(['post'],'/order_mail/upload', 'Aphly\LaravelCompany\Controllers\Admin\OrderMailController@upload');
             Route::match(['post'],'/order_mail/send', 'Aphly\LaravelCompany\Controllers\Admin\OrderMailController@send');
 
+            Route::get('mail_task/order', 'Aphly\LaravelCompany\Controllers\Admin\MailTaskController@order');
+            Route::match(['post','get'],'mail_task/import', 'Aphly\LaravelCompany\Controllers\Admin\MailTaskController@import');
+            Route::get('mail_task/send', 'Aphly\LaravelCompany\Controllers\Admin\MailTaskController@send');
         });
     });
 

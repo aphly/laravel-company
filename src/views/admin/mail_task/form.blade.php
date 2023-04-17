@@ -3,7 +3,7 @@
     <h5 class="nav-title">info</h5>
 </div>
 <div class="imain">
-    <form method="post" @if($res['info']->id) action="/company_admin/order_mail/edit?id={{$res['info']->id}}" @else action="/company_admin/order_mail/add" @endif class="save_form_file">
+    <form method="post" @if($res['info']->id) action="/company_admin/mail_task/edit?id={{$res['info']->id}}" @else action="/company_admin/mail_task/add" @endif class="save_form">
         @csrf
         <div class="">
             <div class="form-group">
@@ -28,11 +28,6 @@
                 </select>
                 <div class="invalid-feedback"></div>
             </div>
-            <div class="form-group">
-                <label for="">xlsx文件</label>
-                <input type="file" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" name="xlsx" class="form-control-file" >
-                <div class="invalid-feedback"></div>
-            </div>
 
             <button class="btn btn-primary" type="submit">保存</button>
         </div>
@@ -43,7 +38,7 @@
 
 </style>
 <script>
-function save_form_file_res(res, that) {
+function save_form_res(res, that) {
     console.log(res, that)
 }
 </script>

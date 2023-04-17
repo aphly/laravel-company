@@ -12,8 +12,8 @@
                 <div class="invalid-feedback"></div>
             </div>
             <div class="form-group">
-                <label for="">template</label>
-                <textarea type="text" name="template" class="form-control ">{{$res['info']->template}}</textarea>
+                <label for="">template 字段名：{{$res['columns']}}</label>
+                <textarea type="text" name="template" class="form-control " style="min-height: 500px;">{{$res['info']->template}}</textarea>
                 <div class="invalid-feedback"></div>
             </div>
             <div class="form-group">

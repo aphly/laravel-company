@@ -4,7 +4,7 @@ namespace Aphly\LaravelCompany\Controllers\Admin;
 
 use Aphly\Laravel\Exceptions\ApiException;
 use Aphly\Laravel\Models\Manager;
-use Aphly\Laravel\Models\Role;
+
 use Aphly\LaravelCompany\Models\Mail;
 use Illuminate\Http\Request;
 
@@ -16,12 +16,11 @@ class MailController extends Controller
     {
         $res['search']['from_address'] = $request->query('from_address',false);
         $res['search']['string'] = http_build_query($request->query());
-        $levelIds = (new Role)->hasLevelIds(session('role_id'));
         $res['list'] = Mail::when($res['search']['from_address'],
                 function($query,$from_address) {
                     return $query->where('from_address', 'like', '%'.$from_address.'%');
                 })
-            ->dataPerm(Manager::_uuid(),$levelIds)
+            ->dataPerm(Manager::_uuid(),$this->roleLevelIds)
             ->orderBy('id','desc')
             ->Paginate(config('admin.perPage'))->withQueryString();
         return $this->makeView('laravel-company::admin.mail.index',['res'=>$res]);

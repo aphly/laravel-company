@@ -4,9 +4,9 @@ namespace Aphly\LaravelCompany\Controllers\Admin;
 
 use Aphly\Laravel\Exceptions\ApiException;
 use Aphly\Laravel\Models\Manager;
-use Aphly\Laravel\Models\Role;
 use Aphly\LaravelCompany\Models\MailTemplate;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Schema;
 
 class MailTemplateController extends Controller
 {
@@ -16,12 +16,11 @@ class MailTemplateController extends Controller
     {
         $res['search']['name'] =  $request->query('name',false);
         $res['search']['string'] = http_build_query($request->query());
-        $levelIds = (new Role)->hasLevelIds(session('role_id'));
         $res['list'] = MailTemplate::when($res['search']['name'],
                             function($query,$val) {
                                 return $query->where('name', 'like', '%'.$val.'%');
                             })
-                        ->dataPerm(Manager::_uuid(),$levelIds)
+                        ->dataPerm(Manager::_uuid(),$this->roleLevelIds)
                         ->orderBy('id','desc')
                         ->Paginate(config('admin.perPage'))->withQueryString();
         return $this->makeView('laravel-company::admin.mail_template.index',['res'=>$res]);
@@ -37,6 +36,8 @@ class MailTemplateController extends Controller
             throw new ApiException(['code'=>0,'msg'=>'success','data'=>['redirect'=>$this->index_url]]);
         }else{
             $res['info'] = MailTemplate::where('id',$request->query('id',0))->firstOrNew();
+            $res['columns'] = Schema::getColumnListing('company_order');
+            $res['columns'] = implode(',',$res['columns']);
             return $this->makeView('laravel-company::admin.mail_template.form',['res'=>$res]);
         }
     }
@@ -48,6 +49,8 @@ class MailTemplateController extends Controller
             $res['info']->update($request->all());
             throw new ApiException(['code' => 0, 'msg' => 'success', 'data' => ['redirect' => $this->index_url]]);
         }else{
+            $res['columns'] = Schema::getColumnListing('company_order');
+            $res['columns'] = implode(',',$res['columns']);
             return $this->makeView('laravel-company::admin.mail_template.form',['res'=>$res]);
         }
     }

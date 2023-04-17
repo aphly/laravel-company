@@ -1,47 +1,43 @@
 <div class="top-bar">
-    <h5 class="nav-title">订单邮件</h5>
+    <h5 class="nav-title">邮件订单</h5>
 </div>
 
 <div class="imain">
     <div class="itop ">
-        <form method="get" action="/company_admin/order_mail/index" class="select_form">
+        <form method="get" action="/company_admin/mail_task/order" class="select_form">
         <div class="search_box ">
-            <input type="search" name="from_address" placeholder="from_address" value="{{$res['search']['from_address']}}">
+            <input type="search" name="order_id" placeholder="order_id" value="{{$res['search']['order_id']}}">
             <button class="" type="submit">搜索</button>
         </div>
         </form>
         <div class="">
-            <a class="badge badge-primary ajax_get show_all0_btn" data-href="/company_admin/order_mail/add">添加</a>
+            <a class="badge badge-primary ajax_get show_all0_btn" data-href="/company_admin/mail_task/send?id={{$res['info']->id}}">发送</a>
         </div>
     </div>
 
-    <form method="post"  @if($res['search']['string']) action="/company_admin/order_mail/del?{{$res['search']['string']}}" @else action="/company_admin/order_mail/del" @endif  class="del_form">
-    @csrf
+    <form method="post"  class="del_form">
         <div class="table_scroll">
             <div class="table">
                 <ul class="table_header">
-                    <li >ID</li>
+                    <li >order_id</li>
                     <li >from_address</li>
                     <li >status</li>
-                    <li >操作</li>
                 </ul>
                 @if($res['list']->total())
                     @foreach($res['list'] as $v)
                     <ul class="table_tbody">
-                        <li><input type="checkbox" class="delete_box" name="delete[]" value="{{$v['id']}}">{{$v['id']}}</li>
+                        <li><input type="checkbox" class="delete_box" name="delete[]" value="{{$v['order_id']}}">{{$v['order_id']}}</li>
                         <li>{{ $v['from_address'] }}</li>
                         <li>
-                            @if($dict['status'])
-                                @if($v['status']==1)
-                                    <span class="badge badge-success">{{$dict['status'][$v['status']]}}</span>
+                            @if($dict['mail_send_status'])
+                                @if($v['status']==2)
+                                    <span class="badge badge-success">{{$dict['mail_send_status'][$v['status']]}}</span>
                                 @else
-                                    <span class="badge badge-secondary">{{$dict['status'][$v['status']]}}</span>
+                                    <span class="badge badge-secondary">{{$dict['mail_send_status'][$v['status']]}}</span>
                                 @endif
                             @endif
                         </li>
-                        <li>
-                            <a class="badge badge-info ajax_get" data-href="/company_admin/order_mail/edit?id={{$v['id']}}">编辑</a>
-                        </li>
+
                     </ul>
                     @endforeach
                     <ul class="table_bottom">
