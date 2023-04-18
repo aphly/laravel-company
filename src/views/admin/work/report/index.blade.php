@@ -4,18 +4,18 @@
 
 <div class="imain">
     <div class="itop ">
-        <form method="get" action="/company_admin/mail/index" class="select_form">
+        <form method="get" action="/company_admin/work/report/index" class="select_form">
         <div class="search_box ">
             <input type="search" name="from_address" placeholder="from_address" value="{{$res['search']['from_address']}}">
             <button class="" type="submit">搜索</button>
         </div>
         </form>
         <div class="">
-            <a class="badge badge-primary ajax_get show_all0_btn" data-href="/company_admin/mail/add">添加</a>
+            <a class="badge badge-primary ajax_get show_all0_btn" data-href="/company_admin/work/report/add">添加</a>
         </div>
     </div>
 
-    <form method="post"  @if($res['search']['string']) action="/company_admin/mail/del?{{$res['search']['string']}}" @else action="/company_admin/mail/del" @endif  class="del_form">
+    <form method="post"  @if($res['search']['string']) action="/company_admin/work/report/del?{{$res['search']['string']}}" @else action="/company_admin/work/report/del" @endif  class="del_form">
     @csrf
         <div class="table_scroll">
             <div class="table">
@@ -42,7 +42,7 @@
                             @endif
                         </li>
                         <li>
-                            <a class="badge badge-info ajax_get" data-href="/company_admin/mail/edit?id={{$v['id']}}">编辑</a>
+                            <a class="badge badge-info ajax_get" data-href="/company_admin/work/report/edit?id={{$v['id']}}">编辑</a>
                         </li>
                     </ul>
                     @endforeach

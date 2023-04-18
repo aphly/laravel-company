@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('company_mail_template', function (Blueprint $table) {
+        Schema::create('company_customer_service_mail_template', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('uuid')->index();
             $table->unsignedBigInteger('level_id')->default(0)->index();
@@ -32,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('company_mail_template');
+        Schema::dropIfExists('company_customer_service_mail_template');
     }
 };

@@ -4,25 +4,25 @@
 
 <div class="imain">
     <div class="itop ">
-        <form method="get" action="/company_admin/mail_template/index" class="select_form">
+        <form method="get" action="/company_admin/customer_service/mail/index" class="select_form">
         <div class="search_box ">
-            <input type="search" name="name" placeholder="name" value="{{$res['search']['name']}}">
+            <input type="search" name="from_address" placeholder="from_address" value="{{$res['search']['from_address']}}">
             <button class="" type="submit">搜索</button>
         </div>
         </form>
         <div class="">
-            <a class="badge badge-primary ajax_get show_all0_btn" data-href="/company_admin/mail_template/add">添加</a>
+            <a class="badge badge-primary ajax_get show_all0_btn" data-href="/company_admin/customer_service/mail/add">添加</a>
         </div>
     </div>
 
-    <form method="post"  @if($res['search']['string']) action="/company_admin/mail_template/del?{{$res['search']['string']}}" @else action="/company_admin/mail_template/del" @endif  class="del_form">
+    <form method="post"  @if($res['search']['string']) action="/company_admin/customer_service/mail/del?{{$res['search']['string']}}" @else action="/company_admin/customer_service/mail/del" @endif  class="del_form">
     @csrf
         <div class="table_scroll">
             <div class="table">
                 <ul class="table_header">
                     <li >ID</li>
                     <li >username</li>
-                    <li >name</li>
+                    <li >from_address</li>
                     <li >status</li>
                     <li >操作</li>
                 </ul>
@@ -31,7 +31,7 @@
                     <ul class="table_tbody">
                         <li><input type="checkbox" class="delete_box" name="delete[]" value="{{$v['id']}}">{{$v['id']}}</li>
                         <li>{{ $v->manager->username }}</li>
-                        <li>{{ $v['name'] }}</li>
+                        <li>{{ $v['from_address'] }}</li>
                         <li>
                             @if($dict['status'])
                                 @if($v['status']==1)
@@ -42,7 +42,7 @@
                             @endif
                         </li>
                         <li>
-                            <a class="badge badge-info ajax_get" data-href="/company_admin/mail_template/edit?id={{$v['id']}}">编辑</a>
+                            <a class="badge badge-info ajax_get" data-href="/company_admin/customer_service/mail/edit?id={{$v['id']}}">编辑</a>
                         </li>
                     </ul>
                     @endforeach

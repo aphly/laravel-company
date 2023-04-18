@@ -13,12 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('company_mail_task', function (Blueprint $table) {
+        Schema::create('company_work_report', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('uuid')->index();
             $table->unsignedBigInteger('level_id')->default(0)->index();
-            $table->unsignedBigInteger('mail_template_id')->index();
-            $table->unsignedBigInteger('mail_id')->index();
+            $table->text('content')->nullable();
+            $table->text('plan')->nullable();
+            $table->unsignedBigInteger('upload_file_id')->default(0)->index();
             $table->tinyInteger('status')->nullable()->default(1);
             $table->unsignedBigInteger('created_at');
             $table->unsignedBigInteger('updated_at');
@@ -32,6 +33,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('company_mail_task');
+        Schema::dropIfExists('company_work_report');
     }
 };

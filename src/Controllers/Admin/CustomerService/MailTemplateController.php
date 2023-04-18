@@ -1,16 +1,17 @@
 <?php
 
-namespace Aphly\LaravelCompany\Controllers\Admin;
+namespace Aphly\LaravelCompany\Controllers\Admin\CustomerService;
 
 use Aphly\Laravel\Exceptions\ApiException;
 use Aphly\Laravel\Models\Manager;
-use Aphly\LaravelCompany\Models\MailTemplate;
+use Aphly\LaravelCompany\Controllers\Admin\Controller;
+use Aphly\LaravelCompany\Models\CustomerService\MailTemplate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Schema;
 
 class MailTemplateController extends Controller
 {
-    public $index_url='/company_admin/mail_template/index';
+    public $index_url='/company_admin/customer_service/mail_template/index';
 
     public function index(Request $request)
     {
@@ -23,7 +24,7 @@ class MailTemplateController extends Controller
                         ->dataPerm(Manager::_uuid(),$this->roleLevelIds)
                         ->orderBy('id','desc')
                         ->Paginate(config('admin.perPage'))->withQueryString();
-        return $this->makeView('laravel-company::admin.mail_template.index',['res'=>$res]);
+        return $this->makeView('laravel-company::admin.customer_service.mail_template.index',['res'=>$res]);
     }
 
     public function add(Request $request)
@@ -38,7 +39,7 @@ class MailTemplateController extends Controller
             $res['info'] = MailTemplate::where('id',$request->query('id',0))->firstOrNew();
             $res['columns'] = Schema::getColumnListing('company_order');
             $res['columns'] = implode(',',$res['columns']);
-            return $this->makeView('laravel-company::admin.mail_template.form',['res'=>$res]);
+            return $this->makeView('laravel-company::admin.customer_service.mail_template.form',['res'=>$res]);
         }
     }
 
@@ -51,7 +52,7 @@ class MailTemplateController extends Controller
         }else{
             $res['columns'] = Schema::getColumnListing('company_order');
             $res['columns'] = implode(',',$res['columns']);
-            return $this->makeView('laravel-company::admin.mail_template.form',['res'=>$res]);
+            return $this->makeView('laravel-company::admin.customer_service.mail_template.form',['res'=>$res]);
         }
     }
 

@@ -22,8 +22,10 @@ Route::middleware(['web'])->group(function () {
         Route::middleware(['rbac'])->group(function () {
 
             $route_arr = [
-                ['mail','\MailController'],['mail_template','\MailTemplateController'],['order','\OrderController'],
-                ['mail_task','\MailTaskController']
+                ['customer_service/mail','\CustomerService\MailController'],['customer_service/mail_template','\CustomerService\MailTemplateController'],
+                ['order','\OrderController'],
+                ['customer_service/mail_task','\CustomerService\MailTaskController'],
+                ['work/report','\Work\ReportController']
             ];
             foreach ($route_arr as $val){
                 Route::get($val[0].'/index', 'Aphly\LaravelCompany\Controllers\Admin'.$val[1].'@index');
@@ -33,12 +35,9 @@ Route::middleware(['web'])->group(function () {
             }
             Route::match(['get'],'/order/info', 'Aphly\LaravelCompany\Controllers\Admin\OrderController@info');
 
-            Route::match(['post'],'/order_mail/upload', 'Aphly\LaravelCompany\Controllers\Admin\OrderMailController@upload');
-            Route::match(['post'],'/order_mail/send', 'Aphly\LaravelCompany\Controllers\Admin\OrderMailController@send');
-
-            Route::get('mail_task/order', 'Aphly\LaravelCompany\Controllers\Admin\MailTaskController@order');
-            Route::match(['post','get'],'mail_task/import', 'Aphly\LaravelCompany\Controllers\Admin\MailTaskController@import');
-            Route::get('mail_task/send', 'Aphly\LaravelCompany\Controllers\Admin\MailTaskController@send');
+            Route::get('customer_service/mail_task/order', 'Aphly\LaravelCompany\Controllers\Admin\CustomerService\MailTaskController@order');
+            Route::match(['post','get'],'customer_service/mail_task/import', 'Aphly\LaravelCompany\Controllers\Admin\CustomerService\MailTaskController@import');
+            Route::get('customer_service/mail_task/send', 'Aphly\LaravelCompany\Controllers\Admin\CustomerService\MailTaskController@send');
         });
     });
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Aphly\LaravelCompany\Models;
+namespace Aphly\LaravelCompany\Models\CustomerService;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Aphly\Laravel\Models\Model;
@@ -8,7 +8,7 @@ use Aphly\Laravel\Models\Model;
 class MailTask extends Model
 {
     use HasFactory;
-    protected $table = 'company_mail_task';
+    protected $table = 'company_customer_service_mail_task';
     protected $primaryKey = 'id';
     //public $timestamps = false;
 

@@ -3,7 +3,7 @@
     <h5 class="nav-title">info</h5>
 </div>
 <div class="imain">
-    <form method="post" @if($res['info']->id) action="/company_admin/mail/edit?id={{$res['info']->id}}" @else action="/company_admin/mail/add" @endif class="save_form">
+    <form method="post" @if($res['info']->id) action="/company_admin/customer_service/mail/edit?id={{$res['info']->id}}" @else action="/company_admin/customer_service/mail/add" @endif class="save_form">
         @csrf
         <div class="">
             <div class="form-group">

@@ -13,10 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('company_mail_task_order', function (Blueprint $table) {
+        Schema::create('company_customer_service_mail_task', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('mail_task_id')->index();
-            $table->unsignedBigInteger('order_id')->index();
+            $table->unsignedBigInteger('uuid')->index();
+            $table->unsignedBigInteger('level_id')->default(0)->index();
+            $table->unsignedBigInteger('mail_template_id')->index();
+            $table->unsignedBigInteger('mail_id')->index();
             $table->tinyInteger('status')->nullable()->default(1);
             $table->unsignedBigInteger('created_at');
             $table->unsignedBigInteger('updated_at');
@@ -30,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('company_mail_task_order');
+        Schema::dropIfExists('company_customer_service_mail_task');
     }
 };

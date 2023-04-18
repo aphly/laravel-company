@@ -1,29 +1,28 @@
 <div class="top-bar">
-    <h5 class="nav-title">邮件任务</h5>
+    <h5 class="nav-title">邮件设置</h5>
 </div>
 
 <div class="imain">
     <div class="itop ">
-        <form method="get" action="/company_admin/mail_task/index" class="select_form">
+        <form method="get" action="/company_admin/customer_service/mail_template/index" class="select_form">
         <div class="search_box ">
-            <input type="search" name="id" placeholder="id" value="{{$res['search']['id']}}">
+            <input type="search" name="name" placeholder="name" value="{{$res['search']['name']}}">
             <button class="" type="submit">搜索</button>
         </div>
         </form>
         <div class="">
-            <a class="badge badge-primary ajax_get show_all0_btn" data-href="/company_admin/mail_task/add">添加</a>
+            <a class="badge badge-primary ajax_get show_all0_btn" data-href="/company_admin/customer_service/mail_template/add">添加</a>
         </div>
     </div>
 
-    <form method="post"  @if($res['search']['string']) action="/company_admin/mail_task/del?{{$res['search']['string']}}" @else action="/company_admin/mail_task/del" @endif  class="del_form">
+    <form method="post"  @if($res['search']['string']) action="/company_admin/customer_service/mail_template/del?{{$res['search']['string']}}" @else action="/company_admin/customer_service/mail_template/del" @endif  class="del_form">
     @csrf
         <div class="table_scroll">
             <div class="table">
                 <ul class="table_header">
                     <li >ID</li>
                     <li >username</li>
-                    <li >mail</li>
-                    <li >template</li>
+                    <li >name</li>
                     <li >status</li>
                     <li >操作</li>
                 </ul>
@@ -32,21 +31,18 @@
                     <ul class="table_tbody">
                         <li><input type="checkbox" class="delete_box" name="delete[]" value="{{$v['id']}}">{{$v['id']}}</li>
                         <li>{{ $v->manager->username }}</li>
-                        <li>{{ $v->mail->from_address }}</li>
-                        <li>{{ $v->mailTemplate->name }}</li>
+                        <li>{{ $v['name'] }}</li>
                         <li>
-                            @if($dict['mail_send_status'])
-                                @if($v['status']==2)
-                                    <span class="badge badge-success">{{$dict['mail_send_status'][$v['status']]}}</span>
+                            @if($dict['status'])
+                                @if($v['status']==1)
+                                    <span class="badge badge-success">{{$dict['status'][$v['status']]}}</span>
                                 @else
-                                    <span class="badge badge-secondary">{{$dict['mail_send_status'][$v['status']]}}</span>
+                                    <span class="badge badge-secondary">{{$dict['status'][$v['status']]}}</span>
                                 @endif
                             @endif
                         </li>
                         <li>
-                            <a class="badge badge-info ajax_get" data-href="/company_admin/mail_task/edit?id={{$v['id']}}">编辑</a>
-
-                            <a class="badge badge-info ajax_get" data-href="/company_admin/mail_task/order?id={{$v['id']}}">订单</a>
+                            <a class="badge badge-info ajax_get" data-href="/company_admin/customer_service/mail_template/edit?id={{$v['id']}}">编辑</a>
                         </li>
                     </ul>
                     @endforeach

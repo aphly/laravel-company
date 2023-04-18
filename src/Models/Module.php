@@ -25,6 +25,12 @@ class Module extends Module_base
 
         $menu = Menu::create(['name' => '公司','route' =>'','pid'=>0,'type'=>1,'module_id'=>$module_id,'sort'=>10]);
         if($menu->id){
+            $menu2 = Menu::create(['name' => '工作','route' =>'','pid'=>$menu->id,'type'=>1,'module_id'=>$module_id,'sort'=>20]);
+            if($menu2){
+                $data=[];
+                $data[] =['name' => '报告','route' =>'company_admin/work/report/index','pid'=>$menu2->id,'type'=>2,'module_id'=>$module_id,'sort'=>0];
+                DB::table('admin_menu')->insert($data);
+            }
             $menu2 = Menu::create(['name' => '公共信息','route' =>'','pid'=>$menu->id,'type'=>1,'module_id'=>$module_id,'sort'=>20]);
             if($menu2){
                 $data=[];
@@ -33,28 +39,28 @@ class Module extends Module_base
             }
             $menu2 = Menu::create(['name' => '客服部门','route' =>'','pid'=>$menu->id,'type'=>1,'module_id'=>$module_id,'sort'=>20]);
             if($menu2){
-                $menu3 = Menu::create(['name' => '邮件设置','route' =>'company_admin/mail/index','pid'=>$menu2->id,'type'=>2,'module_id'=>$module_id,'sort'=>0]);
+                $menu3 = Menu::create(['name' => '邮件设置','route' =>'company_admin/customer_service/mail/index','pid'=>$menu2->id,'type'=>2,'module_id'=>$module_id,'sort'=>0]);
                 $data=[];
-                $data[] =['name' => '邮件增加','route' =>'company_admin/mail/add','pid'=>$menu3->id,'type'=>3,'module_id'=>$module_id,'sort'=>0];
-                $data[] =['name' => '邮件修改','route' =>'company_admin/mail/edit','pid'=>$menu3->id,'type'=>3,'module_id'=>$module_id,'sort'=>0];
-                $data[] =['name' => '邮件删除','route' =>'company_admin/mail/del','pid'=>$menu3->id,'type'=>3,'module_id'=>$module_id,'sort'=>0];
+                $data[] =['name' => '邮件增加','route' =>'company_admin/customer_service/mail/add','pid'=>$menu3->id,'type'=>3,'module_id'=>$module_id,'sort'=>0];
+                $data[] =['name' => '邮件修改','route' =>'company_admin/customer_service/mail/edit','pid'=>$menu3->id,'type'=>3,'module_id'=>$module_id,'sort'=>0];
+                $data[] =['name' => '邮件删除','route' =>'company_admin/customer_service/mail/del','pid'=>$menu3->id,'type'=>3,'module_id'=>$module_id,'sort'=>0];
                 DB::table('admin_menu')->insert($data);
 
-                $menu3 = Menu::create(['name' => '邮件模板','route' =>'company_admin/mail_template/index','pid'=>$menu2->id,'type'=>2,'module_id'=>$module_id,'sort'=>0]);
+                $menu3 = Menu::create(['name' => '邮件模板','route' =>'company_admin/customer_service/mail_template/index','pid'=>$menu2->id,'type'=>2,'module_id'=>$module_id,'sort'=>0]);
                 $data=[];
-                $data[] =['name' => '模板增加','route' =>'company_admin/mail_template/add','pid'=>$menu3->id,'type'=>3,'module_id'=>$module_id,'sort'=>0];
-                $data[] =['name' => '模板修改','route' =>'company_admin/mail_template/edit','pid'=>$menu3->id,'type'=>3,'module_id'=>$module_id,'sort'=>0];
-                $data[] =['name' => '模板删除','route' =>'company_admin/mail_template/del','pid'=>$menu3->id,'type'=>3,'module_id'=>$module_id,'sort'=>0];
+                $data[] =['name' => '模板增加','route' =>'company_admin/customer_service/mail_template/add','pid'=>$menu3->id,'type'=>3,'module_id'=>$module_id,'sort'=>0];
+                $data[] =['name' => '模板修改','route' =>'company_admin/customer_service/mail_template/edit','pid'=>$menu3->id,'type'=>3,'module_id'=>$module_id,'sort'=>0];
+                $data[] =['name' => '模板删除','route' =>'company_admin/customer_service/mail_template/del','pid'=>$menu3->id,'type'=>3,'module_id'=>$module_id,'sort'=>0];
                 DB::table('admin_menu')->insert($data);
 
-                $menu3 = Menu::create(['name' => '邮件任务','route' =>'company_admin/mail_task/index','pid'=>$menu2->id,'type'=>2,'module_id'=>$module_id,'sort'=>0]);
+                $menu3 = Menu::create(['name' => '邮件任务','route' =>'company_admin/customer_service/mail_task/index','pid'=>$menu2->id,'type'=>2,'module_id'=>$module_id,'sort'=>0]);
                 $data=[];
-                $data[] =['name' => '任务增加','route' =>'company_admin/mail_task/add','pid'=>$menu3->id,'type'=>3,'module_id'=>$module_id,'sort'=>0];
-                $data[] =['name' => '任务修改','route' =>'company_admin/mail_task/edit','pid'=>$menu3->id,'type'=>3,'module_id'=>$module_id,'sort'=>0];
-                $data[] =['name' => '任务删除','route' =>'company_admin/mail_task/del','pid'=>$menu3->id,'type'=>3,'module_id'=>$module_id,'sort'=>0];
-                $data[] =['name' => '订单邮件','route' =>'company_admin/mail_task/order','pid'=>$menu3->id,'type'=>3,'module_id'=>$module_id,'sort'=>0];
-                $data[] =['name' => '订单导入','route' =>'company_admin/mail_task/import','pid'=>$menu3->id,'type'=>3,'module_id'=>$module_id,'sort'=>0];
-                $data[] =['name' => '邮件发送','route' =>'company_admin/mail_task/send','pid'=>$menu3->id,'type'=>3,'module_id'=>$module_id,'sort'=>0];
+                $data[] =['name' => '任务增加','route' =>'company_admin/customer_service/mail_task/add','pid'=>$menu3->id,'type'=>3,'module_id'=>$module_id,'sort'=>0];
+                $data[] =['name' => '任务修改','route' =>'company_admin/customer_service/mail_task/edit','pid'=>$menu3->id,'type'=>3,'module_id'=>$module_id,'sort'=>0];
+                $data[] =['name' => '任务删除','route' =>'company_admin/customer_service/mail_task/del','pid'=>$menu3->id,'type'=>3,'module_id'=>$module_id,'sort'=>0];
+                $data[] =['name' => '订单邮件','route' =>'company_admin/customer_service/mail_task/order','pid'=>$menu3->id,'type'=>3,'module_id'=>$module_id,'sort'=>0];
+                $data[] =['name' => '订单导入','route' =>'company_admin/customer_service/mail_task/import','pid'=>$menu3->id,'type'=>3,'module_id'=>$module_id,'sort'=>0];
+                $data[] =['name' => '邮件发送','route' =>'company_admin/customer_service/mail_task/send','pid'=>$menu3->id,'type'=>3,'module_id'=>$module_id,'sort'=>0];
                 DB::table('admin_menu')->insert($data);
             }
         }
