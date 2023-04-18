@@ -21,6 +21,7 @@
             <div class="table">
                 <ul class="table_header">
                     <li >ID</li>
+                    <li >username</li>
                     <li >mail</li>
                     <li >template</li>
                     <li >status</li>
@@ -30,11 +31,12 @@
                     @foreach($res['list'] as $v)
                     <ul class="table_tbody">
                         <li><input type="checkbox" class="delete_box" name="delete[]" value="{{$v['id']}}">{{$v['id']}}</li>
+                        <li>{{ $v->manager->username }}</li>
                         <li>{{ $v->mail->from_address }}</li>
                         <li>{{ $v->mailTemplate->name }}</li>
                         <li>
                             @if($dict['mail_send_status'])
-                                @if($v['status']==1)
+                                @if($v['status']==2)
                                     <span class="badge badge-success">{{$dict['mail_send_status'][$v['status']]}}</span>
                                 @else
                                     <span class="badge badge-secondary">{{$dict['mail_send_status'][$v['status']]}}</span>
@@ -43,7 +45,7 @@
                         </li>
                         <li>
                             <a class="badge badge-info ajax_get" data-href="/company_admin/mail_task/edit?id={{$v['id']}}">编辑</a>
-                            <a class="badge badge-info ajax_get" data-href="/company_admin/mail_task/import?id={{$v['id']}}">导入</a>
+
                             <a class="badge badge-info ajax_get" data-href="/company_admin/mail_task/order?id={{$v['id']}}">订单</a>
                         </li>
                     </ul>

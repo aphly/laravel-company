@@ -21,6 +21,7 @@
             <div class="table">
                 <ul class="table_header">
                     <li >ID</li>
+                    <li >username</li>
                     <li >from_address</li>
                     <li >status</li>
                     <li >操作</li>
@@ -29,6 +30,7 @@
                     @foreach($res['list'] as $v)
                     <ul class="table_tbody">
                         <li><input type="checkbox" class="delete_box" name="delete[]" value="{{$v['id']}}">{{$v['id']}}</li>
+                        <li>{{ $v->manager->username }}</li>
                         <li>{{ $v['from_address'] }}</li>
                         <li>
                             @if($dict['status'])

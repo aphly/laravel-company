@@ -3,14 +3,17 @@
 namespace Aphly\LaravelCompany\Controllers\Admin;
 
 use Aphly\Laravel\Exceptions\ApiException;
+use Aphly\Laravel\Jobs\Email;
 use Aphly\Laravel\Models\Manager;
 use Aphly\Laravel\Models\UploadFile;
+use Aphly\LaravelCompany\Mail\Order\All;
 use Aphly\LaravelCompany\Models\Mail;
 use Aphly\LaravelCompany\Models\MailTask;
 use Aphly\LaravelCompany\Models\MailTaskOrder;
 use Aphly\LaravelCompany\Models\MailTemplate;
 use Aphly\LaravelCompany\Models\Order;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Schema;
 
 class MailTaskController extends Controller
 {
@@ -124,16 +127,28 @@ class MailTaskController extends Controller
                 $excel->close();
                 @unlink($path);
             }
-            throw new ApiException(['code' => 0, 'msg' => 'success', 'data' => ['redirect' => $this->index_url]]);
+            throw new ApiException(['code' => 0, 'msg' => 'success', 'data' => ['redirect' => '/company_admin/mail_task/order?id='.$res['info']->id]]);
         }else{
             return $this->makeView('laravel-company::admin.mail_task.import',['res'=>$res]);
         }
     }
 
     public function send(Request $request){
-        $res['info'] = MailTask::where('id', $request->query('id', 0))->dataPerm(Manager::_uuid())->firstOrError();
-        $res['info']->update(['status'=>2]);
-        throw new ApiException(['code' => 0, 'msg' => 'success', 'data' => ['redirect' => $this->index_url]]);
+        $res['info'] = MailTask::where('id', $request->query('id', 0))->dataPerm(Manager::_uuid())->with('mailTemplate')->with('mail')->firstOrError();
+        $res['list'] = MailTaskOrder::where('mail_task_id',$res['info']->id)->with('order')->get();
+        if($res['list']->count()){
+            $res['info']->update(['status'=>2]);
+            $columns1 = Schema::getColumnListing('company_order');
+            foreach ($res['list'] as $val){
+                $val->mail_task = $res['info']->toArray();
+                $arr = $val->toArray();
+                foreach ($columns1 as $v){
+                    $arr['mail_task']['mail_template']['template'] = str_replace('{'.$v.'}',$val->order->{$v},$arr['mail_task']['mail_template']['template']);
+                }
+                Email::dispatch($val->order->email, new All($arr));
+            }
+        }
+        throw new ApiException(['code' => 0, 'msg' => 'success', 'data' => ['redirect' => '/company_admin/mail_task/order?id='.$res['info']->id]]);
     }
 
     public function del(Request $request)

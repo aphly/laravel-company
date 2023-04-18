@@ -38,7 +38,5 @@
 
 </style>
 <script>
-function save_form_res(res, that) {
-    console.log(res, that)
-}
+
 </script>

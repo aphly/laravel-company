@@ -11,6 +11,7 @@
         </div>
         </form>
         <div class="">
+            <a class="badge badge-info ajax_get show_all0_btn" data-href="/company_admin/mail_task/import?id={{$res['info']->id}}">导入</a>
             <a class="badge badge-primary ajax_get show_all0_btn" data-href="/company_admin/mail_task/send?id={{$res['info']->id}}">发送</a>
         </div>
     </div>
@@ -20,14 +21,20 @@
             <div class="table">
                 <ul class="table_header">
                     <li >order_id</li>
-                    <li >from_address</li>
+                    <li >email</li>
+                    <li >firstname</li>
+                    <li >lastname</li>
+                    <li >price</li>
                     <li >status</li>
                 </ul>
                 @if($res['list']->total())
                     @foreach($res['list'] as $v)
                     <ul class="table_tbody">
                         <li><input type="checkbox" class="delete_box" name="delete[]" value="{{$v['order_id']}}">{{$v['order_id']}}</li>
-                        <li>{{ $v['from_address'] }}</li>
+                        <li>{{ $v->order->email }}</li>
+                        <li>{{ $v->order->firstname }}</li>
+                        <li>{{ $v->order->lastname }}</li>
+                        <li>{{ $v->order->currency }} {{ $v->order->price }}</li>
                         <li>
                             @if($dict['mail_send_status'])
                                 @if($v['status']==2)

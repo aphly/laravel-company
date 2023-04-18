@@ -13,12 +13,12 @@
             </div>
             <div class="form-group">
                 <label for="">port</label>
-                <input type="text" name="port" class="form-control " value="{{$res['info']->port}}">
+                <input type="text" name="port" class="form-control " value="{{$res['info']->port??465}}">
                 <div class="invalid-feedback"></div>
             </div>
             <div class="form-group">
                 <label for="">encryption</label>
-                <input type="text" name="encryption" class="form-control " value="{{$res['info']->encryption}}">
+                <input type="text" name="encryption" class="form-control " value="{{$res['info']->encryption??'ssl'}}">
                 <div class="invalid-feedback"></div>
             </div>
             <div class="form-group">
