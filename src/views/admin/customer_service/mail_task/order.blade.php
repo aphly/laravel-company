@@ -30,7 +30,7 @@
                 @if($res['list']->total())
                     @foreach($res['list'] as $v)
                     <ul class="table_tbody">
-                        <li><input type="checkbox" class="delete_box" name="delete[]" value="{{$v['order_id']}}">{{$v['order_id']}}</li>
+                        <li>{{$v['order_id']}}</li>
                         <li>{{ $v->order->email }}</li>
                         <li>{{ $v->order->firstname }}</li>
                         <li>{{ $v->order->lastname }}</li>
@@ -49,8 +49,7 @@
                     @endforeach
                     <ul class="table_bottom">
                         <li>
-                            <input type="checkbox" class="delete_box deleteboxall"  onclick="checkAll(this)">
-                            <button class="badge badge-danger del" type="submit">删除</button>
+                            
                         </li>
                         <li >
                             {{$res['list']->links('laravel::admin.pagination')}}

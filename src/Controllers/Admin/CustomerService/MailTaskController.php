@@ -3,10 +3,10 @@
 namespace Aphly\LaravelCompany\Controllers\Admin\CustomerService;
 
 use Aphly\Laravel\Exceptions\ApiException;
-use Aphly\Laravel\Jobs\Email;
 use Aphly\Laravel\Models\Manager;
 use Aphly\Laravel\Models\UploadFile;
 use Aphly\LaravelCompany\Controllers\Admin\Controller;
+use Aphly\LaravelCompany\Jobs\CustomerServiceEmail;
 use Aphly\LaravelCompany\Mail\Order\All;
 use Aphly\LaravelCompany\Models\CustomerService\Mail;
 use Aphly\LaravelCompany\Models\CustomerService\MailTask;
@@ -91,7 +91,7 @@ class MailTaskController extends Controller
             $input['mail_task_id'] = $res['info']->id;
             $input['status'] = 1;
             $file_path = (new UploadFile(5, ['xlsx']))->upload($request->file('xlsx'), 'private/company/order');
-            $path = storage_path() . '\\app\\' . $file_path;
+            $path = storage_path() . '/app/' . $file_path;
             if (file_exists($path)) {
                 $arr = pathinfo($path);
                 $config = ['path' => $arr['dirname']];
@@ -137,7 +137,7 @@ class MailTaskController extends Controller
     public function send(Request $request){
         $res['info'] = MailTask::where('id', $request->query('id', 0))->dataPerm(Manager::_uuid())->with('mailTemplate')->with('mail')->firstOrError();
         $res['list'] = MailTaskOrder::where('mail_task_id',$res['info']->id)->with('order')->get();
-        if($res['list']->count()){
+        if($res['list']->count() && $res['info']->status==1){
             $res['info']->update(['status'=>2]);
             $columns1 = Schema::getColumnListing('company_order');
             foreach ($res['list'] as $val){
@@ -146,7 +146,7 @@ class MailTaskController extends Controller
                 foreach ($columns1 as $v){
                     $arr['mail_task']['mail_template']['template'] = str_replace('{'.$v.'}',$val->order->{$v},$arr['mail_task']['mail_template']['template']);
                 }
-                Email::dispatch($val->order->email, new All($arr));
+                CustomerServiceEmail::dispatch($arr, new All($arr));
             }
         }
         throw new ApiException(['code' => 0, 'msg' => 'success', 'data' => ['redirect' => '/company_admin/customer_service/mail_task/order?id='.$res['info']->id]]);

@@ -28,6 +28,14 @@
                 </select>
                 <div class="invalid-feedback"></div>
             </div>
+            <div class="form-group">
+                <label for="">状态</label>
+                <select name="status" class="form-control">
+                    <option value="1" @if($res['info']->status==1) selected @endif>未发送</option>
+                    <option value="2" @if($res['info']->status==2) selected @endif>已发送</option>
+                </select>
+                <div class="invalid-feedback"></div>
+            </div>
 
             <button class="btn btn-primary" type="submit">保存</button>
         </div>

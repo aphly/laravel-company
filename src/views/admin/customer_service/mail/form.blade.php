@@ -7,21 +7,6 @@
         @csrf
         <div class="">
             <div class="form-group">
-                <label for="">host</label>
-                <input type="text" name="host" class="form-control " value="{{$res['info']->host}}">
-                <div class="invalid-feedback"></div>
-            </div>
-            <div class="form-group">
-                <label for="">port</label>
-                <input type="text" name="port" class="form-control " value="{{$res['info']->port??465}}">
-                <div class="invalid-feedback"></div>
-            </div>
-            <div class="form-group">
-                <label for="">encryption</label>
-                <input type="text" name="encryption" class="form-control " value="{{$res['info']->encryption??'ssl'}}">
-                <div class="invalid-feedback"></div>
-            </div>
-            <div class="form-group">
                 <label for="">username</label>
                 <input type="text" name="username" class="form-control " value="{{$res['info']->username}}">
                 <div class="invalid-feedback"></div>
@@ -39,6 +24,23 @@
             <div class="form-group">
                 <label for="">from_name</label>
                 <input type="text" name="from_name" class="form-control " value="{{$res['info']->from_name}}">
+                <div class="invalid-feedback"></div>
+            </div>
+            <div class="form-group">
+                <label for="">host</label>
+                <select name="host"  class="form-control">
+                    <option value="smtp.gmail.com" @if($res['info']->host=='smtp.gmail.com') selected @endif>smtp.gmail.com</option>
+                </select>
+                <div class="invalid-feedback"></div>
+            </div>
+            <div class="form-group">
+                <label for="">port</label>
+                <input type="text" name="port" class="form-control " value="{{$res['info']->port??465}}">
+                <div class="invalid-feedback"></div>
+            </div>
+            <div class="form-group">
+                <label for="">encryption</label>
+                <input type="text" name="encryption" class="form-control " value="{{$res['info']->encryption??'ssl'}}">
                 <div class="invalid-feedback"></div>
             </div>
             <div class="form-group">

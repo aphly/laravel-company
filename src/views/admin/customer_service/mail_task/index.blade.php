@@ -32,8 +32,8 @@
                     <ul class="table_tbody">
                         <li><input type="checkbox" class="delete_box" name="delete[]" value="{{$v['id']}}">{{$v['id']}}</li>
                         <li>{{ $v->manager->username }}</li>
-                        <li>{{ $v->mail->from_address }}</li>
-                        <li>{{ $v->mailTemplate->name }}</li>
+                        <li>{{ $v->mail->from_address??'' }}</li>
+                        <li>{{ $v->mailTemplate->name??'' }}</li>
                         <li>
                             @if($dict['mail_send_status'])
                                 @if($v['status']==2)
