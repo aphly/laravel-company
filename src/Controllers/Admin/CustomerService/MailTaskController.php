@@ -72,7 +72,7 @@ class MailTaskController extends Controller
         }else{
             $res['breadcrumb'] = Breadcrumb::render([
                 ['name'=>$this->currArr['name'].'任务','href'=>$this->index_url],
-                ['name'=>'编辑','href'=>'/admin/'.$this->currArr['key'].'/edit?id='.$res['info']->id]
+                ['name'=>'编辑','href'=>'/company_admin/'.$this->currArr['key'].'/edit?id='.$res['info']->id]
             ]);
             return $this->makeView('laravel-company::admin.customer_service.mail_task.form',['res'=>$res]);
         }
@@ -82,7 +82,7 @@ class MailTaskController extends Controller
     {
         $res['search']['order_id'] = $request->query('order_id',false);
         $res['search']['string'] = http_build_query($request->query());
-        $res['info'] = MailTask::where('id',$request->query('id',0))->dataPerm(Manager::_uuid())->firstOrError();
+        $res['info'] = MailTask::where('id',$request->query('id',0))->dataPerm(Manager::_uuid())->with('mailTemplate')->firstOrError();
         $res['list'] = MailTaskOrder::when($res['search']['order_id'],
                             function($query,$val) {
                                 return $query->where('order_id',$val);
@@ -93,7 +93,8 @@ class MailTaskController extends Controller
                         ->Paginate(config('admin.perPage'))->withQueryString();
         $res['breadcrumb'] = Breadcrumb::render([
             ['name'=>$this->currArr['name'].'任务','href'=>$this->index_url],
-            ['name'=>'订单','href'=>'/admin/'.$this->currArr['key'].'/order?id='.$res['info']->id]
+            ['name'=>$res['info']->mailTemplate->name],
+            ['name'=>'订单','href'=>'/company_admin/'.$this->currArr['key'].'/order?id='.$res['info']->id]
         ]);
         return $this->makeView('laravel-company::admin.customer_service.mail_task.order',['res'=>$res]);
     }

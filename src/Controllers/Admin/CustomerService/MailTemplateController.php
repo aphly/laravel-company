@@ -28,7 +28,7 @@ class MailTemplateController extends Controller
                         ->orderBy('id','desc')
                         ->Paginate(config('admin.perPage'))->withQueryString();
         $res['breadcrumb'] = Breadcrumb::render([
-            ['name'=>$this->currArr['name'].'管理','href'=>$this->index_url]
+            ['name'=>$this->currArr['name'],'href'=>$this->index_url]
         ]);
         return $this->makeView('laravel-company::admin.customer_service.mail_template.index',['res'=>$res]);
     }
@@ -46,7 +46,7 @@ class MailTemplateController extends Controller
             $res['columns'] = Schema::getColumnListing('company_order');
             $res['columns'] = implode(',',$res['columns']);
             $res['breadcrumb'] = Breadcrumb::render([
-                ['name'=>$this->currArr['name'].'管理','href'=>$this->index_url],
+                ['name'=>$this->currArr['name'],'href'=>$this->index_url],
                 ['name'=>'新增','href'=>'/company_admin/'.$this->currArr['key'].'/add']
             ]);
             return $this->makeView('laravel-company::admin.customer_service.mail_template.form',['res'=>$res]);
@@ -61,8 +61,8 @@ class MailTemplateController extends Controller
             throw new ApiException(['code' => 0, 'msg' => 'success', 'data' => ['redirect' => $this->index_url]]);
         }else{
             $res['breadcrumb'] = Breadcrumb::render([
-                ['name'=>$this->currArr['name'].'管理','href'=>$this->index_url],
-                ['name'=>'编辑','href'=>'/admin/'.$this->currArr['key'].'/edit?id='.$res['info']->id]
+                ['name'=>$this->currArr['name'],'href'=>$this->index_url],
+                ['name'=>'编辑','href'=>'/company_admin/'.$this->currArr['key'].'/edit?id='.$res['info']->id]
             ]);
             $res['columns'] = Schema::getColumnListing('company_order');
             $res['columns'] = implode(',',$res['columns']);

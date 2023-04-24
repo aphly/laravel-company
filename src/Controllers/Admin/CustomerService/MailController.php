@@ -60,7 +60,7 @@ class MailController extends Controller
         }else{
             $res['breadcrumb'] = Breadcrumb::render([
                 ['name'=>$this->currArr['name'].'管理','href'=>$this->index_url],
-                ['name'=>'编辑','href'=>'/admin/'.$this->currArr['key'].'/edit?id='.$res['info']->id]
+                ['name'=>'编辑','href'=>'/company_admin/'.$this->currArr['key'].'/edit?id='.$res['info']->id]
             ]);
             return $this->makeView('laravel-company::admin.customer_service.mail.form',['res'=>$res]);
         }

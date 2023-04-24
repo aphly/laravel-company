@@ -40,8 +40,12 @@ class ReportController extends Controller
             $input = $request->all();
             $input['uuid'] = Manager::user()->uuid;
             $input['level_id'] = Manager::user()->level_id;
-            $uploadFile = (new UploadFile(5, ['xlsx']))->uploadSaveDb($request->file('xlsx'), 'private/company/work');
-            $input['upload_file_id'] = $uploadFile->id;
+            if($request->hasFile('xlsx')){
+                $uploadFile = (new UploadFile(5, ['xlsx']))->uploadSaveDb($request->file('xlsx'), 'private/company/work');
+                $input['upload_file_id'] = $uploadFile->id;
+            }else{
+                $input['upload_file_id'] = 0;
+            }
             Report::create($input);
             throw new ApiException(['code'=>0,'msg'=>'success','data'=>['redirect'=>$this->index_url]]);
         }else{
@@ -63,7 +67,7 @@ class ReportController extends Controller
         }else{
             $res['breadcrumb'] = Breadcrumb::render([
                 ['name'=>$this->currArr['name'].'管理','href'=>$this->index_url],
-                ['name'=>'编辑','href'=>'/admin/'.$this->currArr['key'].'/edit?id='.$res['info']->id]
+                ['name'=>'编辑','href'=>'/company_admin/'.$this->currArr['key'].'/edit?id='.$res['info']->id]
             ]);
             return $this->makeView('laravel-company::admin.work.report.form',['res'=>$res]);
         }

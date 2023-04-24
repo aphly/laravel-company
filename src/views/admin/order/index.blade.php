@@ -12,7 +12,7 @@
         </div>
         </form>
         <div class="">
-            <a class="badge badge-primary ajax_get show_all0_btn" data-href="/company_admin/order/add">添加</a>
+            <a class="badge badge-primary ajax_get show_all0_btn d-none" data-href="/company_admin/order/add">添加</a>
         </div>
     </div>
 
