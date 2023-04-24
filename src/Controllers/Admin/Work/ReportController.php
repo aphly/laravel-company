@@ -3,6 +3,7 @@
 namespace Aphly\LaravelCompany\Controllers\Admin\Work;
 
 use Aphly\Laravel\Exceptions\ApiException;
+use Aphly\Laravel\Models\Breadcrumb;
 use Aphly\Laravel\Models\Manager;
 
 use Aphly\Laravel\Models\UploadFile;
@@ -13,6 +14,8 @@ use Illuminate\Http\Request;
 class ReportController extends Controller
 {
     public $index_url='/company_admin/work/report/index';
+
+    private $currArr = ['name'=>'报告','key'=>'work/report'];
 
     public function index(Request $request)
     {
@@ -25,6 +28,9 @@ class ReportController extends Controller
             ->dataPerm(Manager::_uuid(),$this->roleLevelIds)
             ->orderBy('id','desc')
             ->Paginate(config('admin.perPage'))->withQueryString();
+        $res['breadcrumb'] = Breadcrumb::render([
+            ['name'=>$this->currArr['name'].'管理','href'=>$this->index_url]
+        ]);
         return $this->makeView('laravel-company::admin.work.report.index',['res'=>$res]);
     }
 
@@ -39,6 +45,10 @@ class ReportController extends Controller
             Report::create($input);
             throw new ApiException(['code'=>0,'msg'=>'success','data'=>['redirect'=>$this->index_url]]);
         }else{
+            $res['breadcrumb'] = Breadcrumb::render([
+                ['name'=>$this->currArr['name'].'管理','href'=>$this->index_url],
+                ['name'=>'新增','href'=>'/company_admin/'.$this->currArr['key'].'/add']
+            ]);
             $res['info'] = Report::where('id',$request->query('id',0))->firstOrNew();
             return $this->makeView('laravel-company::admin.work.report.form',['res'=>$res]);
         }
@@ -51,6 +61,10 @@ class ReportController extends Controller
             $res['info']->update($request->all());
             throw new ApiException(['code' => 0, 'msg' => 'success', 'data' => ['redirect' => $this->index_url]]);
         }else{
+            $res['breadcrumb'] = Breadcrumb::render([
+                ['name'=>$this->currArr['name'].'管理','href'=>$this->index_url],
+                ['name'=>'编辑','href'=>'/admin/'.$this->currArr['key'].'/edit?id='.$res['info']->id]
+            ]);
             return $this->makeView('laravel-company::admin.work.report.form',['res'=>$res]);
         }
     }

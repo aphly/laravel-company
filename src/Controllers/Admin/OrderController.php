@@ -3,6 +3,7 @@
 namespace Aphly\LaravelCompany\Controllers\Admin;
 
 use Aphly\Laravel\Exceptions\ApiException;
+use Aphly\Laravel\Models\Breadcrumb;
 use Aphly\Laravel\Models\Manager;
 use Aphly\LaravelCompany\Models\Order;
 use Illuminate\Http\Request;
@@ -10,6 +11,8 @@ use Illuminate\Http\Request;
 class OrderController extends Controller
 {
     public $index_url='/company_admin/order/index';
+
+    private $currArr = ['name'=>'订单','key'=>'order'];
 
     public function index(Request $request)
     {
@@ -27,6 +30,9 @@ class OrderController extends Controller
                     })
                 ->orderBy('order_id','desc')
                 ->Paginate(config('admin.perPage'))->withQueryString();
+        $res['breadcrumb'] = Breadcrumb::render([
+            ['name'=>$this->currArr['name'].'管理','href'=>$this->index_url]
+        ]);
         return $this->makeView('laravel-company::admin.order.index',['res'=>$res]);
     }
 
@@ -47,6 +53,10 @@ class OrderController extends Controller
     public function info(Request $request)
     {
         $res['info'] = Order::where('order_id',$request->query('order_id',0))->firstOrError();
+        $res['breadcrumb'] = Breadcrumb::render([
+            ['name'=>$this->currArr['name'].'管理','href'=>$this->index_url],
+            ['name'=>'详情','href'=>'/company_admin/'.$this->currArr['key'].'/info']
+        ]);
         return $this->makeView('laravel-company::admin.order.form',['res'=>$res]);
     }
 

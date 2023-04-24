@@ -3,6 +3,7 @@
 namespace Aphly\LaravelCompany\Controllers\Admin\CustomerService;
 
 use Aphly\Laravel\Exceptions\ApiException;
+use Aphly\Laravel\Models\Breadcrumb;
 use Aphly\Laravel\Models\Manager;
 
 use Aphly\LaravelCompany\Controllers\Admin\Controller;
@@ -12,6 +13,8 @@ use Illuminate\Http\Request;
 class MailController extends Controller
 {
     public $index_url='/company_admin/customer_service/mail/index';
+
+    private $currArr = ['name'=>'邮件','key'=>'customer_service/mail'];
 
     public function index(Request $request)
     {
@@ -24,6 +27,9 @@ class MailController extends Controller
             ->dataPerm(Manager::_uuid(),$this->roleLevelIds)
             ->orderBy('id','desc')
             ->Paginate(config('admin.perPage'))->withQueryString();
+        $res['breadcrumb'] = Breadcrumb::render([
+            ['name'=>$this->currArr['name'].'管理','href'=>$this->index_url]
+        ]);
         return $this->makeView('laravel-company::admin.customer_service.mail.index',['res'=>$res]);
     }
 
@@ -37,6 +43,10 @@ class MailController extends Controller
             throw new ApiException(['code'=>0,'msg'=>'success','data'=>['redirect'=>$this->index_url]]);
         }else{
             $res['info'] = Mail::where('id',$request->query('id',0))->firstOrNew();
+            $res['breadcrumb'] = Breadcrumb::render([
+                ['name'=>$this->currArr['name'].'管理','href'=>$this->index_url],
+                ['name'=>'新增','href'=>'/company_admin/'.$this->currArr['key'].'/add']
+            ]);
             return $this->makeView('laravel-company::admin.customer_service.mail.form',['res'=>$res]);
         }
     }
@@ -48,6 +58,10 @@ class MailController extends Controller
             $res['info']->update($request->all());
             throw new ApiException(['code' => 0, 'msg' => 'success', 'data' => ['redirect' => $this->index_url]]);
         }else{
+            $res['breadcrumb'] = Breadcrumb::render([
+                ['name'=>$this->currArr['name'].'管理','href'=>$this->index_url],
+                ['name'=>'编辑','href'=>'/admin/'.$this->currArr['key'].'/edit?id='.$res['info']->id]
+            ]);
             return $this->makeView('laravel-company::admin.customer_service.mail.form',['res'=>$res]);
         }
     }

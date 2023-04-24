@@ -1,6 +1,6 @@
 
 <div class="top-bar">
-    <h5 class="nav-title">导入</h5>
+    <h5 class="nav-title">{!! $res['breadcrumb'] !!}</h5>
 </div>
 <div class="imain">
     <form method="post" action="/company_admin/customer_service/mail_task/import?id={{$res['info']->id}}" class="save_form_file">

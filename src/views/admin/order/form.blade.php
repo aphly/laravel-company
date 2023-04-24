@@ -1,6 +1,6 @@
 
 <div class="top-bar">
-    <h5 class="nav-title">info</h5>
+    <h5 class="nav-title">{!! $res['breadcrumb'] !!}</h5>
 </div>
 <div class="imain">
     <form method="post" @if($res['info']->order_id) action="/company_admin/order/edit?order_id={{$res['info']->order_id}}" @else action="/company_admin/order/add" @endif class="save_form">

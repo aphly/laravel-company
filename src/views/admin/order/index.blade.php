@@ -1,5 +1,5 @@
 <div class="top-bar">
-    <h5 class="nav-title">订单列表</h5>
+    <h5 class="nav-title">{!! $res['breadcrumb'] !!}</h5>
 </div>
 
 <div class="imain">

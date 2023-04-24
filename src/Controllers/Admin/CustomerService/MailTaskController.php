@@ -3,6 +3,7 @@
 namespace Aphly\LaravelCompany\Controllers\Admin\CustomerService;
 
 use Aphly\Laravel\Exceptions\ApiException;
+use Aphly\Laravel\Models\Breadcrumb;
 use Aphly\Laravel\Models\Manager;
 use Aphly\Laravel\Models\UploadFile;
 use Aphly\LaravelCompany\Controllers\Admin\Controller;
@@ -20,6 +21,8 @@ class MailTaskController extends Controller
 {
     public $index_url='/company_admin/customer_service/mail_task/index';
 
+    private $currArr = ['name'=>'邮件','key'=>'customer_service/mail_task'];
+
     public function index(Request $request)
     {
         $res['search']['id'] = $request->query('id',false);
@@ -32,6 +35,9 @@ class MailTaskController extends Controller
                     ->with('mailTemplate')->with('mail')
                     ->orderBy('id','desc')
                     ->Paginate(config('admin.perPage'))->withQueryString();
+        $res['breadcrumb'] = Breadcrumb::render([
+            ['name'=>$this->currArr['name'].'任务','href'=>$this->index_url]
+        ]);
         return $this->makeView('laravel-company::admin.customer_service.mail_task.index',['res'=>$res]);
     }
 
@@ -47,6 +53,10 @@ class MailTaskController extends Controller
             $res['info'] = MailTask::where('id',$request->query('id',0))->firstOrNew();
             $res['mail'] = Mail::dataPerm(Manager::user()->uuid)->where('status',1)->get();
             $res['mail_template'] = MailTemplate::dataPerm(Manager::user()->uuid)->where('status',1)->get();
+            $res['breadcrumb'] = Breadcrumb::render([
+                ['name'=>$this->currArr['name'].'任务','href'=>$this->index_url],
+                ['name'=>'新增','href'=>'/company_admin/'.$this->currArr['key'].'/add']
+            ]);
             return $this->makeView('laravel-company::admin.customer_service.mail_task.form',['res'=>$res]);
         }
     }
@@ -60,6 +70,10 @@ class MailTaskController extends Controller
             $res['info']->update($request->all());
             throw new ApiException(['code' => 0, 'msg' => 'success', 'data' => ['redirect' => $this->index_url]]);
         }else{
+            $res['breadcrumb'] = Breadcrumb::render([
+                ['name'=>$this->currArr['name'].'任务','href'=>$this->index_url],
+                ['name'=>'编辑','href'=>'/admin/'.$this->currArr['key'].'/edit?id='.$res['info']->id]
+            ]);
             return $this->makeView('laravel-company::admin.customer_service.mail_task.form',['res'=>$res]);
         }
     }
@@ -77,6 +91,10 @@ class MailTaskController extends Controller
                         ->with('order')
                         ->orderBy('id','desc')
                         ->Paginate(config('admin.perPage'))->withQueryString();
+        $res['breadcrumb'] = Breadcrumb::render([
+            ['name'=>$this->currArr['name'].'任务','href'=>$this->index_url],
+            ['name'=>'订单','href'=>'/admin/'.$this->currArr['key'].'/order?id='.$res['info']->id]
+        ]);
         return $this->makeView('laravel-company::admin.customer_service.mail_task.order',['res'=>$res]);
     }
 
@@ -130,6 +148,10 @@ class MailTaskController extends Controller
             }
             throw new ApiException(['code' => 0, 'msg' => 'success', 'data' => ['redirect' => '/company_admin/customer_service/mail_task/order?id='.$res['info']->id]]);
         }else{
+            $res['breadcrumb'] = Breadcrumb::render([
+                ['name'=>$this->currArr['name'].'任务','href'=>$this->index_url],
+                ['name'=>'导入','href'=>'/admin/'.$this->currArr['key'].'/import?id='.$res['info']->id]
+            ]);
             return $this->makeView('laravel-company::admin.customer_service.mail_task.import',['res'=>$res]);
         }
     }
@@ -148,8 +170,10 @@ class MailTaskController extends Controller
                 }
                 CustomerServiceEmail::dispatch($arr, new All($arr));
             }
+            throw new ApiException(['code' => 0, 'msg' => 'success']);
+        }else{
+            throw new ApiException(['code' => 1, 'msg' => 'fail']);
         }
-        throw new ApiException(['code' => 0, 'msg' => 'success', 'data' => ['redirect' => '/company_admin/customer_service/mail_task/order?id='.$res['info']->id]]);
     }
 
     public function del(Request $request)

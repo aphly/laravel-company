@@ -1,5 +1,5 @@
 <div class="top-bar">
-    <h5 class="nav-title">邮件任务</h5>
+    <h5 class="nav-title">{!! $res['breadcrumb'] !!}</h5>
 </div>
 
 <div class="imain">

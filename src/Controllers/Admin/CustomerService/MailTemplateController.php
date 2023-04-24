@@ -3,6 +3,7 @@
 namespace Aphly\LaravelCompany\Controllers\Admin\CustomerService;
 
 use Aphly\Laravel\Exceptions\ApiException;
+use Aphly\Laravel\Models\Breadcrumb;
 use Aphly\Laravel\Models\Manager;
 use Aphly\LaravelCompany\Controllers\Admin\Controller;
 use Aphly\LaravelCompany\Models\CustomerService\MailTemplate;
@@ -12,6 +13,8 @@ use Illuminate\Support\Facades\Schema;
 class MailTemplateController extends Controller
 {
     public $index_url='/company_admin/customer_service/mail_template/index';
+
+    private $currArr = ['name'=>'邮件模板','key'=>'customer_service/mail_template'];
 
     public function index(Request $request)
     {
@@ -24,6 +27,9 @@ class MailTemplateController extends Controller
                         ->dataPerm(Manager::_uuid(),$this->roleLevelIds)
                         ->orderBy('id','desc')
                         ->Paginate(config('admin.perPage'))->withQueryString();
+        $res['breadcrumb'] = Breadcrumb::render([
+            ['name'=>$this->currArr['name'].'管理','href'=>$this->index_url]
+        ]);
         return $this->makeView('laravel-company::admin.customer_service.mail_template.index',['res'=>$res]);
     }
 
@@ -39,6 +45,10 @@ class MailTemplateController extends Controller
             $res['info'] = MailTemplate::where('id',$request->query('id',0))->firstOrNew();
             $res['columns'] = Schema::getColumnListing('company_order');
             $res['columns'] = implode(',',$res['columns']);
+            $res['breadcrumb'] = Breadcrumb::render([
+                ['name'=>$this->currArr['name'].'管理','href'=>$this->index_url],
+                ['name'=>'新增','href'=>'/company_admin/'.$this->currArr['key'].'/add']
+            ]);
             return $this->makeView('laravel-company::admin.customer_service.mail_template.form',['res'=>$res]);
         }
     }
@@ -50,6 +60,10 @@ class MailTemplateController extends Controller
             $res['info']->update($request->all());
             throw new ApiException(['code' => 0, 'msg' => 'success', 'data' => ['redirect' => $this->index_url]]);
         }else{
+            $res['breadcrumb'] = Breadcrumb::render([
+                ['name'=>$this->currArr['name'].'管理','href'=>$this->index_url],
+                ['name'=>'编辑','href'=>'/admin/'.$this->currArr['key'].'/edit?id='.$res['info']->id]
+            ]);
             $res['columns'] = Schema::getColumnListing('company_order');
             $res['columns'] = implode(',',$res['columns']);
             return $this->makeView('laravel-company::admin.customer_service.mail_template.form',['res'=>$res]);
